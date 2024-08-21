@@ -1,4 +1,4 @@
-"""app_project URL Configuration
+"""lwl URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app_api.views import register_user, login_user
+from rest_framework import routers
+from django.conf.urls import include
+from lwlapi.views import check_user
+
+
+router = routers.DefaultRouter(trailing_slash=False)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('register', register_user),
-    path('login', login_user),
+    path('', include(router.urls)),
+    path('checkuser', check_user),
 ]
