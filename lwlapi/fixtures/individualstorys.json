@@ -1,0 +1,10 @@
+[  
+  {
+    "model": "lwlapi.individualstory",
+    "pk": 1,
+    "fields": {
+      "individual": 1,
+      "story": 1
+    }
+  }
+]

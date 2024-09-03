@@ -1,0 +1,11 @@
+[  
+  {
+    "model": "lwlapi.user",
+    "pk": 1,
+    "fields": {
+      "name": "Johnny B Goode",
+      "bio": "I'm the Goodiest Boi",
+      "uid": "BBG3"
+    }
+  }
+]

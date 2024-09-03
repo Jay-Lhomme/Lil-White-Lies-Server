@@ -1,0 +1,10 @@
+[  
+  {
+    "model": "lwlapi.groupstory",
+    "pk": 1,
+    "fields": {
+      "group": 1,
+      "story": 1
+    }
+  }
+]

@@ -1,0 +1,12 @@
+[  
+  {
+    "model": "lwlapi.story",
+    "pk": 1,
+    "fields": {
+      "name": "Gold Mine",
+      "uid": 1,
+      "description": "There's gold along the river bend",
+      "type": "White"
+    }
+  }
+]
