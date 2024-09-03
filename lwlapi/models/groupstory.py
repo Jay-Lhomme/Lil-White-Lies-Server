@@ -4,5 +4,7 @@ from .story import Story
 
 
 class GroupStory(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    story = models.ForeignKey(Story, on_delete=models.CASCADE)
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, related_name='group_storys')
+    story = models.ForeignKey(
+        Story, on_delete=models.CASCADE, related_name='group_related_storys')

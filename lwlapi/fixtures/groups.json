@@ -1,0 +1,12 @@
+[  
+  {
+    "model": "lwlapi.group",
+    "pk": 1,
+    "fields": {
+      "name": "Conquistadors",
+      "uid": 1,
+      "description": "Spains Holy Warriors",
+      "type": "Positive"
+    }
+  }
+]

@@ -1,8 +1,15 @@
+// {
+//     "python.linting.enabled": true,
+//     "python.linting.pylintEnabled": true,
+//     "python.linting.pylintArgs": [
+//         "--load-plugins=pylint_django",
+//         "--django-settings-module=lwl.settings",
+//     ],
+// }
+
 {
-    "python.linting.enabled": true,
-    "python.linting.pylintEnabled": true,
-    "python.linting.pylintArgs": [
+    "pylint.args"	: [
         "--load-plugins=pylint_django",
         "--django-settings-module=lwl.settings",
-    ]
+    ],
 }

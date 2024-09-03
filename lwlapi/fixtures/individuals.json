@@ -1,0 +1,12 @@
+[  
+  {
+    "model": "lwlapi.individual",
+    "pk": 1,
+    "fields": {
+      "name": "John Smith",
+      "uid": 1,
+      "description": "Conquistador",
+      "type": "Positive"
+    }
+  }
+]

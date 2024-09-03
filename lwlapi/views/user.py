@@ -9,20 +9,20 @@ class UserView(ViewSet):
     """Tuna API users view"""
 
     def retrieve(self, request, pk):
-        """Handle GET requests for single user
+        """Handle GET requests for single User
 
         Returns:
-            Response -- JSON serialized user
+            Response -- JSON serialized User
         """
         try:
             user = User.objects.get(pk=pk)
             serializer = UserSerializer(user)
             return Response(serializer.data)
-        except user.DoesNotExist as ex:
+        except User.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
     def list(self, request):
-        """Handle GET requests to get all users
+        """Handle GET requests to get all Users
 
         Returns:
             Response -- JSON serialized list of users
@@ -35,28 +35,28 @@ class UserView(ViewSet):
         """Handle POST operations
 
         Returns:
-            Response -- JSON serialized user instance
+            Response -- JSON serialized User instance
         """
 
         user = User.objects.create(
             name=request.data["name"],
-            age=request.data["age"],
+            uid=request.data["uid"],
             bio=request.data["bio"],
         )
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, pk):
-        """Handle PUT requests for an user
+        """Handle PUT requests for an User
 
         Returns:
             Response -- Empty body with 204 status code
         """
 
         try:
-            user = user.objects.get(pk=pk)
+            user = User.objects.get(pk=pk)
             user.name = request.data["name"]
-            user.age = request.data["age"]
+            user.uid = request.data["uid"]
             user.bio = request.data["bio"]
             serializer = UserSerializer(user, data=request.data)
             if serializer.is_valid():
@@ -65,12 +65,12 @@ class UserView(ViewSet):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
-            return Response({'message': 'user not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as ex:
             return Response({'message': str(ex)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def destroy(self, request, pk):
-        """Handle DELETE requests for an user
+        """Handle DELETE requests for a user
 
         Returns:
             Response -- Empty body with 204 status code
@@ -80,13 +80,13 @@ class UserView(ViewSet):
             user.delete()
             return Response(None, status=status.HTTP_204_NO_CONTENT)
         except User.DoesNotExist:
-            return Response({'message': 'user not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as ex:
             return Response({'message': str(ex)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """JSON serializer for users"""
+    """JSON serializer for Users"""
 
     class Meta:
         model = User
