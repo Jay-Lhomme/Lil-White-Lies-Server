@@ -68,7 +68,7 @@ class StoryView(ViewSet):
             story.name = request.data["name"]
             story.description = request.data["description"]
             story.type = request.data["type"]
-            serializer = StorySerializer(uid, data=request.data)
+            serializer = StorySerializer(story, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -174,21 +174,27 @@ class StoryView(ViewSet):
 
     @action(methods=['delete'], detail=True)
     def remove_individual_from_story(self, request, pk):
-        story = story.objects.get(pk=pk)
-        individualstory = IndividualStory.objects.get(
-            story=story, individual=request.data['individualId'])
-        individualstory.delete()
+        try:
+            story = Story.objects.get(pk=pk)
+            individualstory = IndividualStory.objects.get(
+                story=story, individual=request.data['individualId'])
+            individualstory.delete()
 
-        return Response(None, status=status.HTTP_200_OK)
+            return Response(None, status=status.HTTP_200_OK)
+        except IndividualStory.DoesNotExist:
+            return Response({'message': 'Relationship not found'}, status=status.HTTP_404_NOT_FOUND)
 
     @action(methods=['delete'], detail=True)
     def remove_group_from_story(self, request, pk):
-        story = story.objects.get(pk=pk)
-        groupstory = GroupStory.objects.get(
-            story=story, group=request.data['groupId'])
-        groupstory.delete()
+        try:
+            story = Story.objects.get(pk=pk)
+            groupstory = GroupStory.objects.get(
+                story=story, group=request.data['groupId'])
+            groupstory.delete()
 
-        return Response(None, status=status.HTTP_200_OK)
+            return Response(None, status=status.HTTP_200_OK)
+        except IndividualStory.DoesNotExist:
+            return Response({'message': 'Relationship not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class StorySerializer(serializers.ModelSerializer):

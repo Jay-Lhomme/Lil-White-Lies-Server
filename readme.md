@@ -2,7 +2,7 @@
 Lil' White Lies
 
 <!-- Description -->
-An app to keep track of Stories
+An app to keep track of Stories, and all individuals involved
 
 <!-- Deployed Site -->
 N/A
@@ -19,13 +19,20 @@ Forgetful Friends
 Color-coded Intensity levels
 Hidden False Website Entrances
 Linked Stories to Individuals and Groups
+Randomized Exit-Screen
+Connotation Button
 
 <!-- Contributors -->
 Jay L'homme
 https://github.com/Jay-Lhomme
 
 <!-- Loom Video-->
-N/A
+(https://www.loom.com/share/53a885eecdee4cd19bcbf46f99640644?sid=ebf5ade5-a36b-49fd-a465-bfa9d78a6e43)
+
+<!-- API Documentation -->
+https://documenter.getpostman.com/view/29790674/2sAXjNYBQt
+
+
 
 ### Setup
 
@@ -36,3 +43,4 @@ N/A
 5. Open the project in Visual Studio Code.
 6. Ensure that the correct interpreter is selected.
 7. run server, `python manage.py runserver`.
+8. run tests, `python manage.py test`.

@@ -72,8 +72,8 @@ class TestGroups(APITestCase):
         response = self.client.put(
             f"/groups/{group_id}", updated_group, format='json')
 
-        print(response.status_code)  # Add this line to print the status code
-        print(response.data)  # Add this line to print the response data
+        print(response.status_code)
+        print(response.data)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
