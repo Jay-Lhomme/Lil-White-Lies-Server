@@ -18,7 +18,7 @@ class TestStorys(APITestCase):
     def test_create(self):
         user = User.objects.create(
             name=self.faker.user_name(),
-            uid=self.faker.random_int(min=1, max=3),
+            uid=str(self.faker.random_int(min=1, max=3)),
             bio=self.faker.sentence()
         )
         new_story = {
@@ -58,7 +58,7 @@ class TestStorys(APITestCase):
     def test_update(self):
         user = User.objects.create(
             name=self.faker.user_name(),
-            uid=self.faker.random_int(min=1, max=3),
+            uid=str(self.faker.random_int(min=1, max=3)),
             bio=self.faker.sentence()
         )
         story_id = Story.objects.all()[0].id
@@ -70,6 +70,10 @@ class TestStorys(APITestCase):
         }
         response = self.client.put(
             f"/storys/{story_id}", updated_story, format='json')
+
+        if response.status_code != status.HTTP_200_OK:
+            print(f"Update failed. Status code: {response.status_code}")
+            print(f"Response content: {response.content}")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -114,23 +118,26 @@ class TestStorys(APITestCase):
         self.assertEqual(data["uid"], story.uid.id)
         self.assertEqual(data["description"], story.description)
         self.assertEqual(data["type"], story.type)
-        # group_storys = GroupStory.objects.filter(story=story)
-        # individual_storys = IndividualStory.objects.filter(story=story)
-        # self.assertEqual(len(data["groups"]), len(group_storys))
-        # self.assertEqual(len(data["individuals"]), len(individual_storys))
 
-        # first_group = data["groups"][0]
 
-        # self.assertTrue("id" in first_group)
-        # self.assertTrue("name" in first_group)
-        # self.assertTrue("uid" in first_group)
-        # self.assertTrue("description" in first_group)
-        # self.assertTrue("type" in first_group)
+# FURTHER TESTING NEEDED
+# group_storys = GroupStory.objects.filter(story=story)
+# individual_storys = IndividualStory.objects.filter(story=story)
+# self.assertEqual(len(data["groups"]), len(group_storys))
+# self.assertEqual(len(data["individuals"]), len(individual_storys))
 
-        # first_individual = data["individuals"][0]
+# first_group = data["groups"][0]
 
-        # self.assertTrue("id" in first_individual)
-        # self.assertTrue("name" in first_individual)
-        # self.assertTrue("uid" in first_individual)
-        # self.assertTrue("description" in first_individual)
-        # self.assertTrue("type" in first_individual)
+# self.assertTrue("id" in first_group)
+# self.assertTrue("name" in first_group)
+# self.assertTrue("uid" in first_group)
+# self.assertTrue("description" in first_group)
+# self.assertTrue("type" in first_group)
+
+# first_individual = data["individuals"][0]
+
+# self.assertTrue("id" in first_individual)
+# self.assertTrue("name" in first_individual)
+# self.assertTrue("uid" in first_individual)
+# self.assertTrue("description" in first_individual)
+# self.assertTrue("type" in first_individual)

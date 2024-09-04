@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'lwlapi',
     'django_extensions',
+
 ]
 
 MIDDLEWARE = [
