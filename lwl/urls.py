@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
 from django.conf.urls import include
-from lwlapi.views import check_user, StoryView, GroupView, IndividualView, UserView, GroupStoryView, IndividualStoryView
+from lwlapi.views import check_user, register_user, StoryView, GroupView, IndividualView, UserView, GroupStoryView, IndividualStoryView
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'storys', StoryView, 'story')
@@ -30,5 +30,6 @@ router.register(r'groupstorys', GroupStoryView, 'groupstory')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('checkuser', check_user),
+    path('checkuser', check_user, name='check_user'),
+    path('registeruser', register_user),
 ]

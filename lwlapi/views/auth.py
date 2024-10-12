@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from lwlapi.models import User
 
 
 @api_view(['POST'])

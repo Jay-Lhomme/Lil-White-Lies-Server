@@ -38,7 +38,17 @@ class IndividualStoryView(ModelViewSet):
         Returns:
             Response -- JSON serialized list of individuals
         """
+
         individualstory = IndividualStory.objects.all()
+
+        # individual_id = request.query_params.get('individual_id', None)
+        # if uid is not None:
+        #     individualstory = individualstory.filter(
+        #         individual_id=individual_id)
+        # uid = request.query_params.get('individual_id', None)
+        # if uid is not None:
+        #     individualstory = individualstory.filter(uid=uid)
+
         serializer = IndividualStorySerializer(individualstory, many=True)
         return Response(serializer.data)
 
@@ -60,7 +70,6 @@ class IndividualStoryView(ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        # print(f"Filtered stories: {individual_stories}")
         # Serialize the filtered data
         serializer = IndividualStorySerializer(individual_stories, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

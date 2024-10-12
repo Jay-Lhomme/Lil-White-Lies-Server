@@ -37,14 +37,20 @@ class UserView(ViewSet):
         Returns:
             Response -- JSON serialized User instance
         """
-
-        user = User.objects.create(
-            name=request.data["name"],
-            uid=request.data["uid"],
-            bio=request.data["bio"],
-        )
-        serializer = UserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        try:
+            uid = request.data["uid"]
+            user = User.objects.get(uid=uid)
+            user = User.objects.create(
+                name=request.data["name"],
+                uid=user,
+                bio=request.data["bio"],
+            )
+            serializer = UserSerializer(user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except User.DoesNotExist:
+            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as ex:
+            return Response({'message': str(ex)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def update(self, request, pk):
         """Handle PUT requests for an User

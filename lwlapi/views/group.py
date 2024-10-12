@@ -30,21 +30,27 @@ class GroupView(ViewSet):
         Returns:
             Response -- JSON serialized list of groups
         """
-        group = Group.objects.all()
-        serializer = GroupSerializer(group, many=True)
+        groups = Group.objects.all()
+
+        uid = request.query_params.get('uid', None)
+        if uid is not None:
+            groups = groups.filter(uid=uid)
+
+        serializer = GroupSerializer(groups, many=True)
         return Response(serializer.data)
 
-    def create(self, request):
+    def create(self, request, format=None):
         """Handle POST operations
 
         Returns:
             Response -- JSON serialized group instance
         """
+        uid = request.data.get("uid")
+        user = User.objects.get(uid=uid)
         try:
-            uid = User.objects.get(pk=request.data["uid"])
             group = Group.objects.create(
                 name=request.data["name"],
-                uid=uid,
+                uid=user,
                 description=request.data["description"],
                 type=request.data["type"],
             )

@@ -30,30 +30,64 @@ class StoryView(ViewSet):
         Returns:
             Response -- JSON serialized list of StoryS
         """
-        story = Story.objects.all()
-        serializer = StorySerializer(story, many=True)
+        stories = Story.objects.all()
+
+        uid = request.query_params.get('uid', None)
+        if uid is not None:
+            stories = stories.filter(uid=uid)
+
+        serializer = StorySerializer(stories, many=True)
         return Response(serializer.data)
 
-    def create(self, request):
+    def create(self, request, format=None):
         """Handle POST operations
 
         Returns:
             Response -- JSON serialized story instance
         """
-        uid = User.objects.get(pk=request.data["uid"])
+        uid = request.data.get("uid")
+        if not uid:
+            return Response({'message': 'UID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(uid=uid)
+        except User.DoesNotExist:
+            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
         try:
             story = Story.objects.create(
                 name=request.data["name"],
-                uid=uid,
+                uid=user,
                 description=request.data["description"],
                 type=request.data["type"],
             )
             serializer = StorySerializer(story)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        except User.DoesNotExist:
-            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as ex:
             return Response({'message': str(ex)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # uid = request.data.get("uid")
+        # if not uid:
+        #     return Response({'message': 'UID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # try:
+        #     user = User.objects.get(uid=uid)
+        # except User.DoesNotExist:
+        #     return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # try:
+        #     story = Story.objects.create(
+        #         name=request.data["name"],
+        #         uid=user,
+        #         description=request.data["description"],
+        #         type=request.data["type"],
+        #     )
+        #     serializer = StorySerializer(story)
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # except User.DoesNotExist:
+        #     return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        # except Exception as ex:
+        #     return Response({'message': str(ex)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def update(self, request, pk):
         """Handle PUT requests for a story
@@ -202,3 +236,4 @@ class StorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Story
         fields = ('id', 'uid', 'name', 'description', 'type')
+        # depth = 1
